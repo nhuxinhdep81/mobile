@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:background="@android:color/white"
+    android:layout_marginBottom="8dp"
+    android:elevation="2dp">
+
+    <!-- Tiêu đề bài viết -->
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/black"
+        android:text="📌 Tiêu đề bài viết"
+        android:layout_marginBottom="4dp" />
+
+    <!-- Nội dung bài viết -->
+    <TextView
+        android:id="@+id/contentTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:textColor="@android:color/black"
+        android:text="Nội dung bài viết"
+        android:maxLines="3"
+        android:ellipsize="end"
+        android:layout_marginBottom="6dp" />
+
+    <!-- Ngày tạo -->
+    <TextView
+        android:id="@+id/createdDateTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="@android:color/darker_gray"
+        android:text="📅 Ngày tạo: 2025-05-17"
+        android:gravity="end" />
+</LinearLayout>
