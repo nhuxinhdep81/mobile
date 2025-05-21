@@ -28,4 +28,9 @@ public class Category {
     public String getCreatedDate() {
         return createdDate;
     }
+
+    @Override
+    public String toString() {
+        return name; // Hiển thị tên danh mục trong Spinner
+    }
 }

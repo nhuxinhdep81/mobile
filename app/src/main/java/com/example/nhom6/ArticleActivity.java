@@ -1,5 +1,6 @@
 package com.example.nhom6;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -11,8 +12,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.nhom6.DatabaseHelper.Category;
-
 import java.util.List;
 
 public class ArticleActivity extends AppCompatActivity {
@@ -21,11 +20,11 @@ public class ArticleActivity extends AppCompatActivity {
     private Spinner categorySpinner;
     private CheckBox featuredCheckBox;
     private Button saveButton;
+    private int articleId = -1; // -1 nghĩa là thêm mới, >0 nghĩa là chỉnh sửa
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
@@ -42,6 +41,32 @@ public class ArticleActivity extends AppCompatActivity {
 
         loadCategoriesToSpinner();
 
+        // Kiểm tra chế độ chỉnh sửa
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra("article_id")) {
+            articleId = intent.getIntExtra("article_id", -1);
+            String title = intent.getStringExtra("article_title");
+            String content = intent.getStringExtra("article_content");
+            String image = intent.getStringExtra("article_image");
+            int categoryId = intent.getIntExtra("article_category_id", -1);
+            boolean isFeatured = intent.getBooleanExtra("article_is_featured", false);
+
+            titleEditText.setText(title);
+            contentEditText.setText(content);
+            imageEditText.setText(image);
+            featuredCheckBox.setChecked(isFeatured);
+            saveButton.setText("Cập nhật");
+
+            // Đặt danh mục đã chọn trong Spinner
+            List<Category> categoryList = dbHelper.getCategoryList();
+            for (int i = 0; i < categoryList.size(); i++) {
+                if (categoryList.get(i).getId() == categoryId) {
+                    categorySpinner.setSelection(i);
+                    break;
+                }
+            }
+        }
+
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,7 +79,6 @@ public class ArticleActivity extends AppCompatActivity {
                     return;
                 }
 
-                // Lấy Category đã chọn
                 Category selectedCategory = (Category) categorySpinner.getSelectedItem();
                 if (selectedCategory == null) {
                     Toast.makeText(ArticleActivity.this, "Vui lòng chọn danh mục", Toast.LENGTH_SHORT).show();
@@ -64,12 +88,24 @@ public class ArticleActivity extends AppCompatActivity {
                 int categoryId = selectedCategory.getId();
                 boolean isFeatured = featuredCheckBox.isChecked();
 
-                long result = dbHelper.addArticle(title, content, image, categoryId, isFeatured);
-                if (result != -1) {
-                    Toast.makeText(ArticleActivity.this, "Thêm bài viết thành công", Toast.LENGTH_SHORT).show();
-                    finish();
+                if (articleId == -1) {
+                    // Thêm mới bài viết
+                    long result = dbHelper.addArticle(title, content, image, categoryId, isFeatured);
+                    if (result != -1) {
+                        Toast.makeText(ArticleActivity.this, "Thêm bài viết thành công", Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
+                        Toast.makeText(ArticleActivity.this, "Thêm bài viết thất bại", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Toast.makeText(ArticleActivity.this, "Thêm bài viết thất bại", Toast.LENGTH_SHORT).show();
+                    // Cập nhật bài viết
+                    boolean success = dbHelper.updateArticle(articleId, title, content, image, categoryId, isFeatured);
+                    if (success) {
+                        Toast.makeText(ArticleActivity.this, "Cập nhật bài viết thành công", Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
+                        Toast.makeText(ArticleActivity.this, "Cập nhật bài viết thất bại", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });

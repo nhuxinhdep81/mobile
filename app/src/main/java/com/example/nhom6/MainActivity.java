@@ -31,15 +31,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Tắt ActionBar (tiêu đề ở trên cùng)
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().hide();
-        }
-
         setContentView(R.layout.activity_main);
 
-        // Kiểm tra và yêu cầu quyền định vị
         checkLocationPermission();
 
         dbHelper = new DatabaseHelper(this);
@@ -50,10 +43,19 @@ public class MainActivity extends AppCompatActivity {
 
         categoryList = new ArrayList<>();
         articleList = new ArrayList<>();
-        categoryAdapter = new CategoryAdapter(categoryList, new CategoryAdapter.OnCategoryClickListener() {
+        categoryAdapter = new CategoryAdapter(this, categoryList, new CategoryAdapter.OnCategoryClickListener() {
             @Override
             public void onCategoryClick(int categoryId) {
                 loadArticlesByCategory(categoryId);
+            }
+
+            @Override
+            public void onCategoryDelete(int categoryId) {
+                boolean success = dbHelper.deleteCategory(categoryId);
+                if (success) {
+                    loadCategories();
+                    loadArticles();
+                }
             }
         });
         articleAdapter = new ArticleAdapter(articleList);
@@ -95,11 +97,8 @@ public class MainActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Quyền được cấp, tiếp tục xử lý
                 loadCategories();
                 loadArticles();
-            } else {
-                // Quyền bị từ chối, hiển thị thông báo hoặc xử lý khác
             }
         }
     }
@@ -108,12 +107,11 @@ public class MainActivity extends AppCompatActivity {
         categoryList.clear();
         Cursor cursor = dbHelper.getAllCategories();
         while (cursor.moveToNext()) {
-            categoryList.add(new Category(
-                    cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COL_CATEGORY_ID)),
-                    cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COL_CATEGORY_NAME)),
-                    cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COL_CATEGORY_DESCRIPTION)),
-                    cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COL_CATEGORY_CREATED_DATE))
-            ));
+            int id = cursor.getInt(cursor.getColumnIndexOrThrow(DatabaseHelper.COL_CATEGORY_ID));
+            String name = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COL_CATEGORY_NAME));
+            String description = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COL_CATEGORY_DESCRIPTION));
+            String createdDate = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseHelper.COL_CATEGORY_CREATED_DATE));
+            categoryList.add(new Category(id, name, description, createdDate));
         }
         cursor.close();
         categoryAdapter.notifyDataSetChanged();

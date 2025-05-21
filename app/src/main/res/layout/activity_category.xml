@@ -6,41 +6,39 @@
     android:padding="16dp"
     android:background="@android:color/white">
 
-    <!-- Tên danh mục -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tên Danh Mục"
+        android:textSize="16sp"
+        android:layout_marginBottom="8dp" />
+
     <EditText
         android:id="@+id/nameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="📂 Tên Danh Mục"
-        android:background="@android:color/darker_gray"
-        android:padding="12dp"
-        android:textSize="16sp"
-        android:textColorHint="@android:color/black"
-        android:layout_marginBottom="12dp" />
+        android:hint="Nhập tên danh mục"
+        android:layout_marginBottom="16dp" />
 
-    <!-- Mô tả danh mục -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Mô Tả"
+        android:textSize="16sp"
+        android:layout_marginBottom="8dp" />
+
     <EditText
         android:id="@+id/descriptionEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="📝 Mô Tả"
-        android:background="@android:color/darker_gray"
-        android:padding="12dp"
-        android:textSize="16sp"
-        android:textColorHint="@android:color/black"
-        android:minLines="3"
-        android:gravity="top"
-        android:inputType="textMultiLine"
-        android:layout_marginBottom="20dp" />
+        android:hint="Nhập mô tả danh mục"
+        android:layout_marginBottom="16dp" />
 
-    <!-- Nút lưu -->
     <Button
         android:id="@+id/saveButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="💾 Lưu"
-        android:textSize="16sp"
-        android:padding="12dp"
-        android:background="@android:color/holo_blue_light"
-        android:textColor="@android:color/white" />
+        android:text="Lưu"
+        android:textSize="16sp" />
+
 </LinearLayout>

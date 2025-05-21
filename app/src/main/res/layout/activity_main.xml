@@ -1,67 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
+    android:fillViewport="true"
     android:background="@android:color/white">
 
-    <!-- Nút thêm danh mục -->
-
-    <!-- Nút thêm bài viết -->
-    <Button
-        android:id="@+id/addCategoryButton"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="➕ Thêm Danh Mục"
-        android:textSize="16sp" />
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <Button
-        android:id="@+id/addArticleButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="📝 Thêm Bài Viết"
-        android:textSize="16sp"
-        android:layout_marginBottom="16dp" />
+        <!-- Nút thêm danh mục -->
+        <Button
+            android:id="@+id/addCategoryButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="➕ Thêm Danh Mục"
+            android:textSize="16sp" />
 
-    <!-- Tiêu đề Danh mục -->
+        <!-- Nút thêm bài viết -->
+        <Button
+            android:id="@+id/addArticleButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📝 Thêm Bài Viết"
+            android:textSize="16sp"
+            android:layout_marginBottom="16dp" />
 
-    <!-- Danh sách Danh mục -->
+        <!-- Tiêu đề Danh mục -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="📁 Danh Mục"
+            android:textColor="#333333"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="📁 Danh Mục"
-        android:textColor="#333333"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        <!-- Danh sách Danh mục -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/categoryRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F9F9F9"
+            android:padding="8dp"
+            android:layout_marginBottom="16dp" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/categoryRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#F9F9F9"
-        android:padding="8dp"
-        android:layout_marginBottom="16dp" />
+        <!-- Tiêu đề Bài viết -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📰 Bài Viết"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#333333"
+            android:layout_marginBottom="8dp" />
 
-    <!-- Tiêu đề Bài viết -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="📰 Bài Viết"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="#333333"
-        android:layout_marginBottom="8dp" />
-
-    <!-- Danh sách Bài viết -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/articleRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="#F9F9F9"
-        android:padding="8dp" />
-</LinearLayout>
+        <!-- Danh sách Bài viết -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/articleRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#F9F9F9"
+            android:padding="8dp" />
+    </LinearLayout>
+</ScrollView>
